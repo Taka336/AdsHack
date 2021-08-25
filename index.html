@@ -1,35 +1,8 @@
 <head>
   <meta charset="utf-8" />
+  <script src="./script.js"></script>
 </head>
 <body>
   <p>Hello, World!</p>
-  <input type="file" name="example" accept=".tsv" id="input-tsv" />
-
-  <div id="output_tsv"></div>
-
-  <script>
-    function tsv_data(dataPath) {
-      const request = new XMLHttpRequest(); // HTTPでファイルを読み込む
-      request.addEventListener("load", (event) => {
-        // ロードさせ実行
-        const response = event.target.responseText; // 受け取ったテキストを返す
-        tsv_array(response); //tsv_arrayの関数を実行
-      });
-      request.open("GET", dataPath, true); // tsvのパスを指定
-      request.send();
-    }
-
-    function tsv_array(data) {
-      const dataArray = []; //配列を用意
-      const dataString = data.replace(/"/g, "").split("\n"); //改行で分割
-      for (let i = 0; i < dataString.length - 3; i++) {
-        //あるだけループ
-        dataArray[i] = dataString[i + 3].split("\t");
-      }
-      output_tsv.innerHTML = dataArray; //表示
-      console.log(dataArray);
-    }
-
-    tsv_data("query.tsv");
-  </script>
+  <input type="file" name="example" accept=".tsv" id="input" />
 </body>
