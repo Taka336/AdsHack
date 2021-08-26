@@ -13,7 +13,7 @@ function tsv_array(data) {
 }
 
 function createTable(dataArray) {
-  tbody.innerHTML = ""
+  tbody.innerHTML = "";
   dataArray.forEach((r) => {
     let tds = "";
     r.forEach((d) => {
@@ -71,26 +71,36 @@ function MorphemeReporter(data) {
       const cpa = cv == 0 ? 0 : cost / cv;
       const cvr = click == 0 ? 0 : cv / click;
 
-      arr.push([
-        morpheme,
-        new Intl.NumberFormat("ja-JP").format(count),
-        new Intl.NumberFormat("ja-JP").format(imp),
-        new Intl.NumberFormat("ja-JP").format(click),
-        new Intl.NumberFormat("ja-JP", {
-          style: "percent",
-          maximumSignificantDigits: 4,
-        }).format(ctr),
-        new Intl.NumberFormat("ja-JP").format(cpc),
-        new Intl.NumberFormat("ja-JP").format(cv),
-        new Intl.NumberFormat("ja-JP", {
-          style: "percent",
-          maximumSignificantDigits: 4,
-        }).format(cvr),
-        new Intl.NumberFormat("ja-JP").format(cpa),
-        new Intl.NumberFormat("ja-JP").format(cost),
-      ]);
+      arr.push([morpheme, count, imp, click, ctr, cpc, cv, cvr, cpa, cost]);
     }
-    return arr;
+
+    arr.sort((a, b) => {
+      return b[3] - a[3];
+    });
+
+    let arr_ = [];
+    arr.forEach((r) => {
+      arr_.push([
+        r[0],
+        new Intl.NumberFormat("ja-JP").format(r[1]),
+        new Intl.NumberFormat("ja-JP").format(r[2]),
+        new Intl.NumberFormat("ja-JP").format(r[3]),
+        new Intl.NumberFormat("ja-JP", {
+          style: "percent",
+          maximumSignificantDigits: 4,
+        }).format(r[4]),
+        new Intl.NumberFormat("ja-JP").format(r[5]),
+        new Intl.NumberFormat("ja-JP").format(r[6]),
+        new Intl.NumberFormat("ja-JP", {
+          style: "percent",
+          maximumSignificantDigits: 4,
+        }).format(r[7]),
+        new Intl.NumberFormat("ja-JP").format(r[8]),
+        new Intl.NumberFormat("ja-JP").format(r[9]),
+      ]);
+    });
+
+    return arr_;
   };
 
   this.toFloat = function (string) {
