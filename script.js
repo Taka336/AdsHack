@@ -74,6 +74,7 @@ function MorphemeReporter(data) {
       arr.push([morpheme, count, imp, click, ctr, cpc, cv, cvr, cpa, cost]);
     }
 
+    // クリック数の降順でソート
     arr.sort((a, b) => {
       return b[3] - a[3];
     });
@@ -89,13 +90,13 @@ function MorphemeReporter(data) {
           style: "percent",
           maximumSignificantDigits: 4,
         }).format(r[4]),
-        new Intl.NumberFormat("ja-JP").format(r[5]),
+        new Intl.NumberFormat("ja-JP").format(Math.round(r[5])),
         new Intl.NumberFormat("ja-JP").format(r[6]),
         new Intl.NumberFormat("ja-JP", {
           style: "percent",
           maximumSignificantDigits: 4,
         }).format(r[7]),
-        new Intl.NumberFormat("ja-JP").format(r[8]),
+        new Intl.NumberFormat("ja-JP").format(Math.round(r[8])),
         new Intl.NumberFormat("ja-JP").format(r[9]),
       ]);
     });
