@@ -13,6 +13,7 @@ function tsv_array(data) {
 }
 
 function createTable(dataArray) {
+  tbody.innerHTML = ""
   dataArray.forEach((r) => {
     let tds = "";
     r.forEach((d) => {

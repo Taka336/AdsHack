@@ -1,11 +1,22 @@
-<head>
+<!DOCTYPE html>
+<head lang="ja">
   <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <title>形態素レポート</title>
 </head>
 <body>
-  <button id="js-button">クリップボードにコピー</button>
-  <input type="file" name="example" accept=".tsv" id="input" />
+  <h1>形態素レポート</h1>
 
-  <table id="table">
+  <div class="input-container">
+    <input type="file" name="example" accept=".tsv" id="input" />
+  </div>
+
+  <div class="button-container">
+    <button id="js-button">クリップボードにコピー</button>
+  </div>
+
+  <table id="table" class="styled-table">
     <thead>
       <tr>
         <th>Morpheme</th>
@@ -20,8 +31,81 @@
         <th>COST</th>
       </tr>
     </thead>
-    <tbody id="tbody"></tbody>
+    <tbody id="tbody">
+      <tr>
+        <td>クレンズ</td>
+        <td>13</td>
+        <td>11,744</td>
+        <td>2,439</td>
+        <td>20.77%</td>
+        <td>95.86</td>
+        <td>544</td>
+        <td>22.3%</td>
+        <td>429.785</td>
+        <td>233,803</td>
+      </tr>
+      <tr>
+        <td>炭</td>
+        <td>76</td>
+        <td>48,028</td>
+        <td>10,112</td>
+        <td>21.05%</td>
+        <td>110.774</td>
+        <td>2,252</td>
+        <td>22.27%</td>
+        <td>497.4</td>
+        <td>1,120,144</td>
+      </tr>
+      <tr>
+        <td>チャコール</td>
+        <td>30</td>
+        <td>24,263</td>
+        <td>4,664</td>
+        <td>19.22%</td>
+        <td>98.405</td>
+        <td>955</td>
+        <td>20.48%</td>
+        <td>480.588</td>
+        <td>458,962</td>
+      </tr>
+      <tr>
+        <td>ダイエット</td>
+        <td>50</td>
+        <td>38,090</td>
+        <td>7,443</td>
+        <td>19.54%</td>
+        <td>125.418</td>
+        <td>1,668</td>
+        <td>22.41%</td>
+        <td>559.645</td>
+        <td>933,488</td>
+      </tr>
+      <tr>
+        <td>ランキング</td>
+        <td>7</td>
+        <td>1,826</td>
+        <td>634</td>
+        <td>34.72%</td>
+        <td>93.92</td>
+        <td>134</td>
+        <td>21.14%</td>
+        <td>444.366</td>
+        <td>59,545</td>
+      </tr>
+      <tr>
+        <td>嘘</td>
+        <td>4</td>
+        <td>3,921</td>
+        <td>336</td>
+        <td>8.569%</td>
+        <td>133.708</td>
+        <td>57</td>
+        <td>16.96%</td>
+        <td>788.175</td>
+        <td>44,926</td>
+      </tr>
+    </tbody>
   </table>
 
-  <script src="./script.js"></script>
+  <script src="script.js"></script>
 </body>
