@@ -16,8 +16,8 @@ function tsv_data(dataPath) {
     const response = event.target.responseText; // 受け取ったテキストを返す
     const data = tsv_array(response); //tsv_arrayの関数を実行
     const hoge = new Hoge(data);
-    // console.log(hoge.hoge());
-    console.log(hoge.spam());
+    const arr = hoge.spam();
+    func1(arr);
   });
   request.open("GET", dataPath, true); // tsvのパスを指定
   request.send();
@@ -88,6 +88,16 @@ function Hoge(data) {
   this.toFloat = function (string) {
     return parseFloat(string.replace(/,/, ""));
   };
+}
+
+function func1(arr) {
+  const tbody = document.getElementById("tbody");
+
+  for (i in arr) {
+    const r = arr[i];
+    const tr = `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]}</td><td>${r[6]}</td><td>${r[7]}</td><td>${r[8]}</td><td>${r[9]}</td></tr>`;
+    tbody.innerHTML += tr;
+  }
 }
 
 tsv_data("query.tsv");
