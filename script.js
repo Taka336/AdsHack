@@ -1,5 +1,7 @@
 const inputElement = document.getElementById("input");
 const tbody = document.getElementById("tbody");
+const table = document.getElementById("table");
+const button = document.getElementById("js-button");
 
 function tsv_array(data) {
   const dataArray = [];
@@ -27,7 +29,7 @@ function MorphemeReporter(data) {
   this.cost_idx = this.headers.indexOf("費用");
   this.cv_idx = this.headers.indexOf("コンバージョン");
 
-  this.queries = data.slice(3);
+  this.queries = data.slice(3, -3);
 
   this.aggregateByMorpheme = function () {
     dic = {};
@@ -63,12 +65,29 @@ function MorphemeReporter(data) {
       const cost = data[morpheme].cost;
       const cv = data[morpheme].cv;
 
-      const ctr = click / imp;
-      const cpc = cost / click;
-      const cpa = cost / cv;
-      const cvr = cv / click;
+      const ctr = imp == 0 ? 0 : click / imp;
+      const cpc = click == 0 ? 0 : cost / click;
+      const cpa = cv == 0 ? 0 : cost / cv;
+      const cvr = click == 0 ? 0 : cv / click;
 
-      arr.push([morpheme, count, imp, click, ctr, cpc, cv, cvr, cpa, cost]);
+      arr.push([
+        morpheme,
+        new Intl.NumberFormat("ja-JP").format(count),
+        new Intl.NumberFormat("ja-JP").format(imp),
+        new Intl.NumberFormat("ja-JP").format(click),
+        new Intl.NumberFormat("ja-JP", {
+          style: "percent",
+          maximumSignificantDigits: 4,
+        }).format(ctr),
+        new Intl.NumberFormat("ja-JP").format(cpc),
+        new Intl.NumberFormat("ja-JP").format(cv),
+        new Intl.NumberFormat("ja-JP", {
+          style: "percent",
+          maximumSignificantDigits: 4,
+        }).format(cvr),
+        new Intl.NumberFormat("ja-JP").format(cpa),
+        new Intl.NumberFormat("ja-JP").format(cost),
+      ]);
     }
     return arr;
   };
@@ -88,4 +107,19 @@ inputElement.addEventListener("change", (e) => {
     const arr = mr.getMorphemeReport();
     createTable(arr);
   };
+});
+
+button.addEventListener("click", () => {
+  // 選択エリアを定義
+  const range = document.createRange();
+  range.selectNodeContents(table);
+
+  // 選択
+  window.getSelection().addRange(range);
+
+  // クリップボードにコピー
+  document.execCommand("copy");
+
+  // 選択解除
+  window.getSelection().removeRange(range);
 });
