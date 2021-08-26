@@ -1,38 +1,26 @@
-// const inputElement = document.getElementById("input");
-// inputElement.addEventListener("change", (e) => {
-//   const file = e.target.files[0];
-//   const reader = new FileReader();
-//   reader.readAsText(file);
-//   reader.onload = (e) => {
-//     const data = e.target.result;
-//     console.log(tsv_array(data));
-//   };
-// });
-
-function tsv_data(dataPath) {
-  const request = new XMLHttpRequest(); // HTTPでファイルを読み込む
-  request.addEventListener("load", (event) => {
-    // ロードさせ実行
-    const response = event.target.responseText; // 受け取ったテキストを返す
-    const data = tsv_array(response); //tsv_arrayの関数を実行
-    const hoge = new Hoge(data);
-    const arr = hoge.spam();
-    func1(arr);
-  });
-  request.open("GET", dataPath, true); // tsvのパスを指定
-  request.send();
-}
+const inputElement = document.getElementById("input");
+const tbody = document.getElementById("tbody");
 
 function tsv_array(data) {
-  const dataArray = []; //配列を用意
-  const dataString = data.replace(/"/g, "").split("\n"); //改行で分割
+  const dataArray = [];
+  const dataString = data.replace(/"/g, "").split("\n");
   for (let i = 0; i < dataString.length; i++) {
     dataArray[i] = dataString[i].split("\t");
   }
   return dataArray;
 }
 
-function Hoge(data) {
+function createTable(dataArray) {
+  dataArray.forEach((r) => {
+    let tds = "";
+    r.forEach((d) => {
+      tds += `<td>${d}</td>`;
+    });
+    tbody.innerHTML += `<tr>${tds}</tr>`;
+  });
+}
+
+function MorphemeReporter(data) {
   this.headers = data[2];
   this.imp_idx = this.headers.indexOf("表示回数");
   this.click_idx = this.headers.indexOf("クリック数");
@@ -41,7 +29,7 @@ function Hoge(data) {
 
   this.queries = data.slice(3);
 
-  this.hoge = function () {
+  this.aggregateByMorpheme = function () {
     dic = {};
     this.queries.forEach((query) => {
       query[0].split(" ").forEach((morpheme) => {
@@ -65,9 +53,9 @@ function Hoge(data) {
     return dic;
   };
 
-  this.spam = function () {
+  this.getMorphemeReport = function () {
     let arr = [];
-    const data = this.hoge();
+    const data = this.aggregateByMorpheme();
     for (morpheme in data) {
       const count = data[morpheme].count;
       const imp = data[morpheme].imp;
@@ -90,14 +78,14 @@ function Hoge(data) {
   };
 }
 
-function func1(arr) {
-  const tbody = document.getElementById("tbody");
-
-  for (i in arr) {
-    const r = arr[i];
-    const tr = `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]}</td><td>${r[6]}</td><td>${r[7]}</td><td>${r[8]}</td><td>${r[9]}</td></tr>`;
-    tbody.innerHTML += tr;
-  }
-}
-
-tsv_data("query.tsv");
+inputElement.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  const reader = new FileReader();
+  reader.readAsText(file);
+  reader.onload = (e) => {
+    const data = tsv_array(e.target.result);
+    const mr = new MorphemeReporter(data);
+    const arr = mr.getMorphemeReport();
+    createTable(arr);
+  };
+});
